@@ -43,7 +43,7 @@ enum E_IO_NUM
 	EI_IO7 = 7,	
 };
 
-enum E_MODE_IO
+enum E_IO_MODE
 {
 	EI_IN  = 0,
 	EI_OUT = 1,
