@@ -11,7 +11,7 @@ TIMER系のクラスをincludeするためだけのファイル
 {
 	#error "Include <H28_AM640.h>"
 }
-#endif /*_H28_AM640_H_*/
+#endif
 
 #include "H28_T_C_COUNTER.cpp"
 
