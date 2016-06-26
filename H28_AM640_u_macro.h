@@ -19,16 +19,16 @@ UART系のクラスや関数を使うためのマクロやtypdef
 /*USART*/
 typedef unsigned short int T_DATA;
 
-#define IN_ERROR 0xffff 
+#define IN_ERROR 0xfff 
 //このマクロは12bit以上ないと使えないからな気を付けろよ。by H28 May 13のSn
 
 
 enum E_UART_FLAG
 //UART FLAG COMAND
 {
-	EU_NONE,	
-	EU_SUCCE,	//受信成功
-	EU_ERROR,	//受信失敗
+	EU_NONE  = 0,	
+	EU_SUCCE = 1,	//受信成功
+	EU_ERROR = 2,	//受信失敗
 };
 
 enum E_UART_ADDR
@@ -43,8 +43,8 @@ enum E_UART_ADDR
 enum E_UART_MODE
 //UART MODE SET COMAND
 {
-	EU_TRA, //送信
-	EU_REC, //受信
+	EU_TRA  = 0, //送信
+	EU_REC  = 1, //受信
 };
 
 /************************************************************************/
