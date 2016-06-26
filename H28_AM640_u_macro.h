@@ -19,7 +19,7 @@ UART系のクラスや関数を使うためのマクロやtypdef
 /*USART*/
 typedef unsigned short int T_DATA;
 
-#define IN_ERROR 0xfff 
+#define IN_ERROR 0xffff 
 //このマクロは12bit以上ないと使えないからな気を付けろよ。by H28 May 13のSn
 
 
