@@ -93,12 +93,6 @@ T_DATA C_UART_R::In()
 	
 	_ret_in_data |= UDR;
 	
-	if (UCSRA & ((1 << FE) & (1 << DOR) & (1 << UPE)))
-	{
-		_mem_uart_r_in_flag = EU_ERROR;
-		return IN_ERROR;
-	}
-	
 	_mem_uart_r_in_flag = EU_NONE;
 	
 	return _ret_in_data;
