@@ -1,7 +1,7 @@
 
 /*
 UART系のクラスや関数を使うためのマクロやtypdef
- H28 05 18 ver0.0.0
+H28 05 18 ver0.0.0
 */
 
 #ifndef _H28_AM640_U_MACRO_H_
