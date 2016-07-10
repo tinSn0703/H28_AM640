@@ -21,12 +21,14 @@ class C_UART_T : public virtual C_UART_base
 	
 	void Set_isr(E_LOGIC );
 	void Out(T_DATA );
+	
+	friend void operator<<(C_UART_T &,T_DATA );
 };
 
 //protected
 inline void C_UART_T::Set(E_UART_ADDR _arg_uart_t_addr, E_LOGIC _arg_uart_t_nf_isr = FALES)
 {
-	C_UART_base::Set_base(_arg_uart_t_addr, EU_TRA);
+	C_UART_base::Set_base(_arg_uart_t_addr);
 	Set_isr(_arg_uart_t_nf_isr);
 }
 
@@ -61,6 +63,11 @@ void C_UART_T::Out(T_DATA _arg_uart_t_out_data)
 	while (!(UCSRA & (1 << TXC))); //送信完了まで待機
 	
 	UCSRA |= (1 << TXC);
+}
+
+void operator<<(C_UART_T &_arg_uart_t,T_DATA _arg_uart_t_data_out)
+{
+	_arg_uart_t.Out(_arg_uart_t_data_out);
 }
 
 #endif

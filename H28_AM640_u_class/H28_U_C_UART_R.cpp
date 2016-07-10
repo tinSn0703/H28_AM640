@@ -13,10 +13,9 @@
 
 class C_UART_R : public virtual C_UART_base , public C_TIMER_inside
 {
-	private:
-	E_UART_FLAG _mem_uart_r_in_flag :2; //最後の受信状態の記録
+	protected:
+	E_UART_FLAG _mem_uart_r_flag :2; //最後の受信状態の記録
 	
-	protected:	
 	void Set(E_UART_ADDR ,E_LOGIC );
 	
 	public:
@@ -25,21 +24,27 @@ class C_UART_R : public virtual C_UART_base , public C_TIMER_inside
 	
 	void Set_isr(E_LOGIC );
 	void Check();
+	
 	T_DATA In();
 
-	E_UART_FLAG Ret_flag()	{	return _mem_uart_r_in_flag;	}
+	E_UART_FLAG Ret_flag()	{	return _mem_uart_r_flag;	}
+	
+	friend void operator>>(C_UART_R &,T_DATA &);
+	
+	friend bool operator==(C_UART_R &,E_UART_FLAG );
+	friend bool operator!=(C_UART_R &,E_UART_FLAG );
 };
 
 //protevted
 inline void C_UART_R::Set(E_UART_ADDR _arg_uart_r_addr, E_LOGIC _arg_uart_r_nf_isr)
 {
-	Set_base(_arg_uart_r_addr,EU_REC);
+	Set_base(_arg_uart_r_addr);
 	
 	Set_isr(_arg_uart_r_nf_isr);
 	
 	C_TIMER_inside::Set(80);
 	
-	_mem_uart_r_in_flag = EU_NONE;
+	_mem_uart_r_flag = EU_NONE;
 }
 
 //public
@@ -69,13 +74,13 @@ void C_UART_R::Check()
 		{
 			C_TIMER_inside::End();
 			
-			_mem_uart_r_in_flag = EU_SUCCE;
+			_mem_uart_r_flag = EU_SUCCE;
 			break;
 		}
 		
 		if (C_TIMER_inside::Check() == TRUE)	//カウント完了(タイムアウト)
 		{
-			_mem_uart_r_in_flag = EU_ERROR;
+			_mem_uart_r_flag = EU_ERROR;
 			break;
 		}
 	}
@@ -85,7 +90,7 @@ T_DATA C_UART_R::In()
 {
 	Check(); //受信チェック
 	
-	if (_mem_uart_r_in_flag == EU_ERROR)	return IN_ERROR;	//受信失敗
+	if (_mem_uart_r_flag == EU_ERROR)	return IN_ERROR;	//受信失敗
 	
 	T_DATA _ret_in_data = 0;
 		
@@ -93,8 +98,28 @@ T_DATA C_UART_R::In()
 	
 	_ret_in_data |= UDR;
 	
-	_mem_uart_r_in_flag = EU_NONE;
+	_mem_uart_r_flag = EU_NONE;
 	
 	return _ret_in_data;
 }
+
+void operator>>(C_UART_R &_arg_uart_r,T_DATA &_arg_uart_r_data_in)
+{
+	_arg_uart_r_data_in = _arg_uart_r.In();
+}
+
+bool operator==(C_UART_R &_arg_uart_r,E_UART_FLAG _arg_uart_r_flag)
+{	
+	if (_arg_uart_r._mem_uart_r_flag == _arg_uart_r_flag)	return true;
+	
+	return false;
+}
+
+bool operator!=(C_UART_R &_arg_uart_r,E_UART_FLAG _arg_uart_r_flag)
+{
+	if (_arg_uart_r._mem_uart_r_flag != _arg_uart_r_flag)	return true;
+	
+	return false;
+}
+
 #endif

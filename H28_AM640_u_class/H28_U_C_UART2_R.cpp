@@ -12,29 +12,24 @@
 
 class C_UART_R2 : protected C_UART_base , public C_TIMER_inside
 {
-	private:
+	protected:
 	E_UART_ADDR _mem_arr_uart_r2_addr[2];	//レジスタ用のアドレス
 	E_UART_FLAG _mem_uart_r2_in_flag :2;
 	T_NUM _mem_uart_r2_num :1;
-	
-	protected:
-	void Set_uart2_addr(T_NUM ,E_UART_ADDR );
-	
-	E_UART_ADDR Ret_uart2_addr(T_NUM _arg_uart_r2_num)	{	return _mem_arr_uart_r2_addr[_arg_uart_r2_num];	}
 		
-	#define UCSRA_0 _SFR_MEM8(Ret_uart2_addr(0) + 0)
-	#define UCSRB_0 _SFR_MEM8(Ret_uart2_addr(0) + 1)
-	#define UCSRC_0 _SFR_MEM8(Ret_uart2_addr(0) + 2)
-	#define UBRRL_0 _SFR_MEM8(Ret_uart2_addr(0) + 4)
-	#define UBRRH_0 _SFR_MEM8(Ret_uart2_addr(0) + 5)
-	#define UDR_0   _SFR_MEM8(Ret_uart2_addr(0) + 6)
+	#define UCSRA_0 _SFR_MEM8(_mem_arr_uart_r2_addr[0] + 0)
+	#define UCSRB_0 _SFR_MEM8(_mem_arr_uart_r2_addr[0] + 1)
+	#define UCSRC_0 _SFR_MEM8(_mem_arr_uart_r2_addr[0] + 2)
+	#define UBRRL_0 _SFR_MEM8(_mem_arr_uart_r2_addr[0] + 4)
+	#define UBRRH_0 _SFR_MEM8(_mem_arr_uart_r2_addr[0] + 5)
+	#define UDR_0   _SFR_MEM8(_mem_arr_uart_r2_addr[0] + 6)
 		
-	#define UCSRA_1 _SFR_MEM8(Ret_uart2_addr(1) + 0)
-	#define UCSRB_1 _SFR_MEM8(Ret_uart2_addr(1) + 1)
-	#define UCSRC_1 _SFR_MEM8(Ret_uart2_addr(1) + 2)
-	#define UBRRL_1 _SFR_MEM8(Ret_uart2_addr(1) + 4)
-	#define UBRRH_1 _SFR_MEM8(Ret_uart2_addr(1) + 5)
-	#define UDR_1	_SFR_MEM8(Ret_uart2_addr(1) + 6)
+	#define UCSRA_1 _SFR_MEM8(_mem_arr_uart_r2_addr[1] + 0)
+	#define UCSRB_1 _SFR_MEM8(_mem_arr_uart_r2_addr[1] + 1)
+	#define UCSRC_1 _SFR_MEM8(_mem_arr_uart_r2_addr[1] + 2)
+	#define UBRRL_1 _SFR_MEM8(_mem_arr_uart_r2_addr[1] + 4)
+	#define UBRRH_1 _SFR_MEM8(_mem_arr_uart_r2_addr[1] + 5)
+	#define UDR_1	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 6)
 	
 	void Set(E_UART_ADDR ,E_UART_ADDR ,E_LOGIC ,E_LOGIC );
 	
@@ -56,18 +51,14 @@ class C_UART_R2 : protected C_UART_base , public C_TIMER_inside
 };
 
 //protected
-inline void C_UART_R2::Set_uart2_addr(T_NUM _arg_uart_r2_num, E_UART_ADDR _arg_uart_r2_addr)
-{
-	_mem_arr_uart_r2_addr[_arg_uart_r2_num] = _arg_uart_r2_addr;
-}
 
 inline void C_UART_R2::Set(E_UART_ADDR _arg_uart_r2_addr_0, E_UART_ADDR _arg_uart_r2_addr_1, E_LOGIC _arg_uart_r2_nf_isr_0 = FALES, E_LOGIC _arg_uart_r2_nf_isr_1 = FALES)
 {
-	Set_uart2_addr(0,_arg_uart_r2_addr_0);
-	Set_uart2_addr(1,_arg_uart_r2_addr_1);
+	_mem_arr_uart_r2_addr[0] = _arg_uart_r2_addr_0;
+	_mem_arr_uart_r2_addr[1] = _arg_uart_r2_addr_1;
 	
-	C_UART_base::Set_base(_arg_uart_r2_addr_0,EU_REC);
-	C_UART_base::Set_base(_arg_uart_r2_addr_1,EU_REC);
+	C_UART_base::Set_base(_arg_uart_r2_addr_0);
+	C_UART_base::Set_base(_arg_uart_r2_addr_1);
 	
 	Set_isr_0(_arg_uart_r2_nf_isr_0);
 	Set_isr_1(_arg_uart_r2_nf_isr_1);
@@ -172,7 +163,7 @@ T_DATA C_UART_R2::In()
 	
 	T_DATA _ret_in_data = 0;
 	
-	C_UART_base::Set_uart_base_addr(Ret_uart2_addr(_mem_uart_r2_num));	//受信成功したポートにする
+	_mem_uart_base_addr = _mem_arr_uart_r2_addr[_mem_uart_r2_num];	//受信成功したポートにする
 	
 	if (UCSRB & ((1<<UCSZ2) | (1<<RXB8)))
 	{
