@@ -19,30 +19,30 @@ class C_AD
 	{
 		struct S_AD_MUX
 		{
-			E_LOGIC mux0 :1;
-			E_LOGIC mux1 :1;
-			E_LOGIC mux2 :1;
-			E_LOGIC mux3 :1;
-			E_LOGIC mux4 :1;
-			E_LOGIC mux5 :1;
+			E_LOGIC _mux0 :1;
+			E_LOGIC _mux1 :1;
+			E_LOGIC _mux2 :1;
+			E_LOGIC _mux3 :1;
+			E_LOGIC _mux4 :1;
+			E_LOGIC _mux5 :1;
 		};
 		
-		S_AD_MUX mux_bit;
-		usint mux_admux :5;
-		E_AD_NUM ad_num :6;
+		S_AD_MUX _mux_bit;
+		usint _mux_admux :5;
+		E_AD_NUM _ad_num :6;
 	};
 	
 	U_AD_MUX _mem_ad_num;
 	
 	protected:	
-	E_LOGIC Ret_mux0()	{	return _mem_ad_num.mux_bit.mux0;	}
-	E_LOGIC Ret_mux1()	{	return _mem_ad_num.mux_bit.mux1;	}
-	E_LOGIC Ret_mux2()	{	return _mem_ad_num.mux_bit.mux2;	}
-	E_LOGIC Ret_mux3()	{	return _mem_ad_num.mux_bit.mux3;	}
-	E_LOGIC Ret_mux4()	{	return _mem_ad_num.mux_bit.mux4;	}
-	E_LOGIC Ret_mux5()	{	return _mem_ad_num.mux_bit.mux5;	}
-	usint Ret_admux()	{	return _mem_ad_num.mux_admux;		}
-	E_AD_NUM Ret_num()	{	return _mem_ad_num.ad_num;			}
+	E_LOGIC Ret_mux0()	{	return _mem_ad_num._mux_bit._mux0;	}
+	E_LOGIC Ret_mux1()	{	return _mem_ad_num._mux_bit._mux1;	}
+	E_LOGIC Ret_mux2()	{	return _mem_ad_num._mux_bit._mux2;	}
+	E_LOGIC Ret_mux3()	{	return _mem_ad_num._mux_bit._mux3;	}
+	E_LOGIC Ret_mux4()	{	return _mem_ad_num._mux_bit._mux4;	}
+	E_LOGIC Ret_mux5()	{	return _mem_ad_num._mux_bit._mux5;	}
+	usint Ret_admux()	{	return _mem_ad_num._mux_admux;		}
+	E_AD_NUM Ret_num()	{	return _mem_ad_num._ad_num;			}
 	
 	void Set_num(E_AD_NUM );
 	
@@ -59,7 +59,7 @@ class C_AD
 //protected
 inline void C_AD::Set_num(E_AD_NUM _arg_ad_num)
 {
-	_mem_ad_num.ad_num = _arg_ad_num;
+	_mem_ad_num._ad_num = _arg_ad_num;
 }
 
 inline void C_AD::Set_first()
@@ -127,13 +127,13 @@ inline usint C_AD::Do()
 	
 	while (ADCSRA & (1<<ADSC));
 	
-	usint _ret_in_data = ADCL;
-	_ret_in_data |= (ADCH << 8);
+	usint _ret_data_in = ADCL;
+	_ret_data_in |= (ADCH << 8);
 	
 	ADMUX  = (1<<REFS0);
 	ADCSRB = 0;
 	
-	return _ret_in_data;
+	return _ret_data_in;
 }
 
 #endif
