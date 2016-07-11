@@ -14,7 +14,7 @@ class C_UART_R2 : protected C_UART_base , public C_TIMER_inside
 {
 	protected:
 	E_UART_ADDR _mem_arr_uart_r2_addr[2];	//レジスタ用のアドレス
-	E_UART_FLAG _mem_uart_r2_in_flag :2;
+	E_UART_FLAG _mem_uart_r2_flag :2;
 	T_NUM _mem_uart_r2_num :1;
 		
 	#define UCSRA_0 _SFR_MEM8(_mem_arr_uart_r2_addr[0] + 0)
@@ -47,7 +47,12 @@ class C_UART_R2 : protected C_UART_base , public C_TIMER_inside
 	
 	T_DATA In();
 	
-	E_UART_FLAG Ret_flag()	{	return _mem_uart_r2_in_flag;	}
+	E_UART_FLAG Ret_flag()	{	return _mem_uart_r2_flag;	}
+		
+	friend void operator>>(C_UART_R2 &,T_DATA &);
+	
+	friend bool operator==(C_UART_R2 &,E_UART_FLAG );
+	friend bool operator!=(C_UART_R2 &,E_UART_FLAG );
 };
 
 //protected
@@ -65,7 +70,7 @@ inline void C_UART_R2::Set(E_UART_ADDR _arg_uart_r2_addr_0, E_UART_ADDR _arg_uar
 	
 	C_TIMER_inside::Set(80);
 	
-	_mem_uart_r2_in_flag = EU_NONE;
+	_mem_uart_r2_flag = EU_NONE;
 }
 
 //public
@@ -126,7 +131,7 @@ inline void C_UART_R2::Check()
 			
 			UCSRB_1 &= ~(1 << RXEN);
 			
-			_mem_uart_r2_in_flag = EU_SUCCE;
+			_mem_uart_r2_flag = EU_SUCCE;
 			
 			_mem_uart_r2_num = 0;
 		
@@ -139,7 +144,7 @@ inline void C_UART_R2::Check()
 			
 			UCSRB_0 &= ~(1 << RXEN);
 			
-			_mem_uart_r2_in_flag = EU_SUCCE;
+			_mem_uart_r2_flag = EU_SUCCE;
 			
 			_mem_uart_r2_num = 1;
 			
@@ -148,7 +153,7 @@ inline void C_UART_R2::Check()
 		
 		if (C_TIMER_inside::Check())	//カウント完了(タイムアウト)
 		{
-			_mem_uart_r2_in_flag = EU_ERROR;
+			_mem_uart_r2_flag = EU_ERROR;
 			
 			break;
 		}
@@ -159,7 +164,7 @@ T_DATA C_UART_R2::In()
 {
 	Check();
 	
-	if (_mem_uart_r2_in_flag == EU_ERROR)	return IN_ERROR;
+	if (_mem_uart_r2_flag == EU_ERROR)	return IN_ERROR;
 	
 	T_DATA _ret_in_data = 0;
 	
@@ -172,9 +177,28 @@ T_DATA C_UART_R2::In()
 	
 	_ret_in_data |= UDR;
 	
-	_mem_uart_r2_in_flag = EU_NONE;
+	_mem_uart_r2_flag = EU_NONE;
 	
 	return _ret_in_data;
+}
+
+void operator>>(C_UART_R2 &_arg_uart_r2,T_DATA &_arg_uart_r2_data_in)
+{
+	_arg_uart_r2_data_in = _arg_uart_r2.In();
+}
+
+bool operator==(C_UART_R2 &_arg_uart_r2,E_UART_FLAG _arg_uart_r2_flag)
+{
+	if (_arg_uart_r2._mem_uart_r2_flag == _arg_uart_r2_flag)	return true;
+	
+	return false;
+}
+
+bool operator!=(C_UART_R2 &_arg_uart_r2,E_UART_FLAG _arg_uart_r2_flag)
+{
+	if (_arg_uart_r2._mem_uart_r2_flag != _arg_uart_r2_flag)	return true;
+	
+	return false;
 }
 
 #endif
