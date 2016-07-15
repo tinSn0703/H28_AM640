@@ -17,6 +17,7 @@ UART系のクラスや関数を使うためのマクロやtypdef
 #include "H28_AM640_t_macro.h"
 
 /*USART*/
+typedef unsigned char T_DATA_8;
 typedef unsigned short int T_DATA;
 
 #define IN_ERROR 0xfff 

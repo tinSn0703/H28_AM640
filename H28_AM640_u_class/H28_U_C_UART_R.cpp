@@ -29,10 +29,11 @@ class C_UART_R : public virtual C_UART_base , public C_TIMER_inside
 
 	E_UART_FLAG Ret_flag()	{	return _mem_uart_r_flag;	}
 	
-	friend void operator>>(C_UART_R &,T_DATA &);
+	friend void operator >> (C_UART_R &, T_DATA &);
+	friend void operator >> (C_UART_R &, T_DATA_8 &);
 	
-	friend bool operator==(C_UART_R &,E_UART_FLAG );
-	friend bool operator!=(C_UART_R &,E_UART_FLAG );
+	friend bool operator == (C_UART_R &,E_UART_FLAG );
+	friend bool operator != (C_UART_R &,E_UART_FLAG );
 };
 
 //protevted
@@ -103,19 +104,24 @@ T_DATA C_UART_R::In()
 	return _ret_in_data;
 }
 
-void operator>>(C_UART_R &_arg_uart_r,T_DATA &_arg_uart_r_data_in)
+void operator >> (C_UART_R &_arg_uart_r,T_DATA &_arg_uart_r_data_in)
 {
 	_arg_uart_r_data_in = _arg_uart_r.In();
 }
 
-bool operator==(C_UART_R &_arg_uart_r,E_UART_FLAG _arg_uart_r_flag)
+void operator >> (C_UART_R &_arg_uart_r,T_DATA_8 &_arg_uart_r_data_in)
+{
+	_arg_uart_r_data_in = (T_DATA_8 )_arg_uart_r.In();
+}
+
+bool operator == (C_UART_R &_arg_uart_r,E_UART_FLAG _arg_uart_r_flag)
 {	
 	if (_arg_uart_r._mem_uart_r_flag == _arg_uart_r_flag)	return true;
 	
 	return false;
 }
 
-bool operator!=(C_UART_R &_arg_uart_r,E_UART_FLAG _arg_uart_r_flag)
+bool operator != (C_UART_R &_arg_uart_r,E_UART_FLAG _arg_uart_r_flag)
 {
 	if (_arg_uart_r._mem_uart_r_flag != _arg_uart_r_flag)	return true;
 	
