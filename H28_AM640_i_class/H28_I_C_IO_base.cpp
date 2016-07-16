@@ -76,15 +76,15 @@ void C_IO_base::Set_base(E_IO_PORT_ADDR _arg_io_base_addr, E_IO_MODE _arg_io_bas
 	{
 		case EI_IN:
 		{
-			DDR  =  _arg_io_base_num;
-			PORT = ~_arg_io_base_num;
+			DDR  = ~_arg_io_base_num;
+			PORT =  _arg_io_base_num;
 			
 			break;
 		}
 		case EI_OUT:
 		{
-			DDR  = ~_arg_io_base_num;
-			PORT =  _arg_io_base_num;
+			DDR  =  _arg_io_base_num;
+			PORT = ~_arg_io_base_num;
 			
 			break;
 		}
