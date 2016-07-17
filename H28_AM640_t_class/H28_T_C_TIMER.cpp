@@ -57,29 +57,24 @@ inline void C_TIMER::Start()
 {
 	Stop();
 	
-	COUNTERH = ((C_TIMER_base::Ret_base_counter() >> 8) & 0xff);
-	COUNTERL = (C_TIMER_base::Ret_base_counter() & 0xff);
+	COUNTERH = ((_mem_timer_base_counter >> 8) & 0xff);
+	COUNTERL = (_mem_timer_base_counter & 0xff);
 	
-	TCCRB |= C_TIMER_base::Ret_base_clock();
+	TCCRB |= _mem_timer_base_clock;
 }
 
 inline void C_TIMER::Start(E_CLOCK _arg_timer_clock, T_VALUE _arg_timer_counter)
 {
 	C_TIMER_base::Set_condition(_arg_timer_clock, _arg_timer_counter);
 	
-	Stop();
-	
-	COUNTERH = ((_arg_timer_counter >> 8) & 0xff);
-	COUNTERL = (_arg_timer_counter & 0xff);
-	
-	TCCRB |= _arg_timer_clock;
+	Start();
 }
 
 E_LOGIC C_TIMER::Flag_timer(E_LOGIC _arg_timer_continue = TRUE)
 {
 	usint mode_bit = 0;
 	
-	switch (C_TIMER_base::Ret_base_mode())
+	switch (_mem_timer_base_mode)
 	{
 		case ET_CAPUTER:	mode_bit = ICF;		break;
 		case ET_COMPARE:	mode_bit = OCFA;	break;

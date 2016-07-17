@@ -13,33 +13,23 @@ TIMER系の基底クラス
 
 class C_TIMER_base
 {
-	private:
+	protected:
+	
 	E_TIMER_NUM		_mem_timer_base_port_addr :9;
 	T_NUM			_mem_timer_base_port_addr_plus :3;
 	E_TIMER_MODE	_mem_timer_base_mode :4;
 	T_VALUE			_mem_timer_base_counter :16;
-	E_CLOCK	_mem_timer_base_clock :3;
+	E_CLOCK			_mem_timer_base_clock :3;
 	
-	protected:
+	void Set_base_addr(E_TIMER_NUM );
 	
-	void Set_base_addr(E_TIMER_NUM );	
-	void Set_base_mode(E_TIMER_MODE );
-	void Set_base_counter(T_VALUE );
-	void Set_base_clock(E_CLOCK );
-	
-	E_TIMER_NUM Ret_base_addr()		{	return _mem_timer_base_port_addr;		}
-	T_NUM Ret_base_addr_plus()		{	return _mem_timer_base_port_addr_plus;	}
-	E_TIMER_MODE Ret_base_mode()	{	return _mem_timer_base_mode;			}
-	T_VALUE Ret_base_counter()		{	return _mem_timer_base_counter;			}
-	E_CLOCK Ret_base_clock()	{	return _mem_timer_base_clock;			}
-	
-	#define TCCRA		_SFR_MEM8(Ret_base_addr() + 0)
-	#define TCCRB		_SFR_MEM8(Ret_base_addr() + 1)
-	#define TCCRC		_SFR_MEM8(Ret_base_addr() + 2)
-	#define TIMSK		_SFR_MEM8(Ret_base_addr_plus() + 0x6e)
-	#define TIFR		_SFR_MEM8(Ret_base_addr_plus() + 0x35)
-	#define COUNTERL	_SFR_MEM8(Ret_base_addr() + Ret_base_mode())
-	#define COUNTERH	_SFR_MEM8(Ret_base_addr() + Ret_base_mode() + 1)
+	#define TCCRA		_SFR_MEM8(_mem_timer_base_port_addr + 0)
+	#define TCCRB		_SFR_MEM8(_mem_timer_base_port_addr + 1)
+	#define TCCRC		_SFR_MEM8(_mem_timer_base_port_addr + 2)
+	#define TIMSK		_SFR_MEM8(_mem_timer_base_port_addr_plus + 0x6e)
+	#define TIFR		_SFR_MEM8(_mem_timer_base_port_addr_plus + 0x35)
+	#define COUNTERL	_SFR_MEM8(_mem_timer_base_port_addr + _mem_timer_base_mode + 0)
+	#define COUNTERH	_SFR_MEM8(_mem_timer_base_port_addr + _mem_timer_base_mode + 1)
 	
 	//bit TCCRA
 	#define WGM0  0
@@ -84,7 +74,6 @@ class C_TIMER_base
 	void Set_base(E_TIMER_NUM ,E_TIMER_MODE ,E_LOGIC );
 	void Set_mode(E_TIMER_MODE , E_LOGIC );
 	
-	public:
 	void Set_condition(E_CLOCK ,T_VALUE );
 };
 
@@ -102,10 +91,6 @@ inline void C_TIMER_base::Set_base_addr(E_TIMER_NUM _arg_timer_base_addr)
 	}
 }
 
-inline void C_TIMER_base::Set_base_mode(E_TIMER_MODE _arg_timer_base_mode)		{	_mem_timer_base_mode = _arg_timer_base_mode;			}
-inline void C_TIMER_base::Set_base_counter(T_VALUE _arg_timer_base_counter)		{	_mem_timer_base_counter = _arg_timer_base_counter;	}
-inline void C_TIMER_base::Set_base_clock(E_CLOCK _arg_timer_base_clock)	{	_mem_timer_base_clock = _arg_timer_base_clock;		}
-
 inline void C_TIMER_base::Set_base(E_TIMER_NUM _arg_timer_base_num, E_TIMER_MODE _arg_timer_base_mode , E_LOGIC _arg_timer_base_nf_isr = FALES)
 {
 	Set_base_addr(_arg_timer_base_num);
@@ -119,7 +104,7 @@ inline void C_TIMER_base::Set_base(E_TIMER_NUM _arg_timer_base_num, E_TIMER_MODE
 
 inline void C_TIMER_base::Set_mode(E_TIMER_MODE _arg_timer_base_mode, E_LOGIC _arg_timer_base_nf_isr = FALES)
 {
-	Set_base_mode(_arg_timer_base_mode);
+	_mem_timer_base_mode = _arg_timer_base_mode;
 	
 	switch (_arg_timer_base_mode)
 	{
@@ -147,8 +132,8 @@ inline void C_TIMER_base::Set_mode(E_TIMER_MODE _arg_timer_base_mode, E_LOGIC _a
 //public
 inline void C_TIMER_base::Set_condition(E_CLOCK _arg_timer_base_clock, T_VALUE _arg_timer_base_counter)
 {
-	Set_base_clock(_arg_timer_base_clock);
-	Set_base_counter(_arg_timer_base_counter);
+	_mem_timer_base_clock = _arg_timer_base_clock;
+	_mem_timer_base_counter = _arg_timer_base_counter;
 }
 
 #endif
