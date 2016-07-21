@@ -37,8 +37,12 @@ enum E_UART_ADDR
 {
 	EU_UART0 = 0xc0,
 	EU_UART1 = 0xc8,
+	
+#ifdef _AVR_IOM640_H_
 	EU_UART2 = 0xd0,
 	EU_UART3 = 0x130,
+#endif
+
 };
 
 enum E_UART_MODE

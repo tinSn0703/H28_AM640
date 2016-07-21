@@ -31,8 +31,7 @@ class C_IO_OUT_pin : protected C_IO_OUT
 //protected
 inline void C_IO_OUT_pin::Set(E_IO_PORT_ADDR _arg_io_out_pin_addr, E_IO_NUM _arg_io_out_pin_bit)
 {
-	C_IO_base::Set_base_addr(_arg_io_out_pin_addr);
-	C_IO_base::Set_base_mode(EI_OUT);
+	C_IO_base::Set_base(_arg_io_out_pin_addr,EI_OUT);
 	
 	_mem_io_out_pin_bit = _arg_io_out_pin_bit;
 	

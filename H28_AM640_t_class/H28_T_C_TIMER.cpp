@@ -12,16 +12,18 @@
 #include "H28_T_C_TIMER_base.cpp"
 
 class C_TIMER : public virtual C_TIMER_base
-{	
-	protected:
-	void Set(E_TIMER_NUM , E_TIMER_MODE , E_LOGIC );
-	void Set(E_TIMER_NUM ,E_TIMER_MODE ,E_CLOCK ,T_VALUE ,E_LOGIC );
-	
+{
 	public:
 	C_TIMER()	{}
-	C_TIMER(E_TIMER_NUM , E_TIMER_MODE , E_LOGIC );
-	C_TIMER(E_TIMER_NUM ,E_TIMER_MODE ,E_CLOCK ,T_VALUE ,E_LOGIC );
-	
+
+#if defined(_AVR_IOM640_H_)
+	C_TIMER(E_TIMER_ADDR ,E_TIMER_MODE ,E_LOGIC );
+	C_TIMER(E_TIMER_ADDR ,E_TIMER_MODE ,E_CLOCK ,T_VALUE ,E_LOGIC );
+#elif defined(_AVR_IOM164_H_)
+	C_TIMER(E_TIMER_MODE ,E_LOGIC );
+	C_TIMER(E_TIMER_MODE ,E_CLOCK ,T_VALUE ,E_LOGIC );
+#endif
+
 	void Start();
 	void Start(E_CLOCK ,T_VALUE );
 	
@@ -30,28 +32,60 @@ class C_TIMER : public virtual C_TIMER_base
 	void Stop();
 };
 
-//protected
-inline void C_TIMER::Set(E_TIMER_NUM _arg_timer_num, E_TIMER_MODE _arg_timer_mode, E_LOGIC _arg_timer_nf_isr = FALES)
+//public
+#if defined(_AVR_IOM640_H_)
+inline 
+C_TIMER::
+C_TIMER
+(
+	E_TIMER_ADDR _arg_timer_num, 
+	E_TIMER_MODE _arg_timer_mode, 
+	E_LOGIC _arg_timer_nf_isr = FALES
+)
 {
 	C_TIMER_base::Set_base(_arg_timer_num, _arg_timer_mode, _arg_timer_nf_isr);
 }
 
-inline void C_TIMER::Set(E_TIMER_NUM _arg_timer_num, E_TIMER_MODE _arg_timer_mode, E_CLOCK _arg_timer_clock, T_VALUE _arg_timer_counter, E_LOGIC _arg_timer_nf_isr = FALES)
+inline 
+C_TIMER::
+C_TIMER
+(
+	E_TIMER_ADDR _arg_timer_num, 
+	E_TIMER_MODE _arg_timer_mode, 
+	E_CLOCK _arg_timer_clock, 
+	T_VALUE _arg_timer_counter, 
+	E_LOGIC _arg_timer_nf_isr = FALES
+)
 {
 	C_TIMER_base::Set_base(_arg_timer_num, _arg_timer_mode, _arg_timer_nf_isr);
 	C_TIMER_base::Set_condition(_arg_timer_clock, _arg_timer_counter);
 }
-
-//public
-inline C_TIMER::C_TIMER(E_TIMER_NUM _arg_timer_num, E_TIMER_MODE _arg_timer_mode, E_LOGIC _arg_timer_nf_isr = FALES)
+#elif defined(_AVR_IOM164_H_)
+inline
+C_TIMER::
+C_TIMER
+(
+	E_TIMER_MODE _arg_timer_mode,
+	E_LOGIC _arg_timer_nf_isr = FALES
+)
 {
-	Set(_arg_timer_num, _arg_timer_mode, _arg_timer_nf_isr);
+	C_TIMER_base::Set_base(_arg_timer_mode, _arg_timer_nf_isr);
 }
 
-inline C_TIMER::C_TIMER(E_TIMER_NUM _arg_timer_num, E_TIMER_MODE _arg_timer_mode, E_CLOCK _arg_timer_clock, T_VALUE _arg_timer_counter, E_LOGIC _arg_timer_nf_isr = FALES)
+inline
+C_TIMER::
+C_TIMER
+(
+	E_TIMER_MODE _arg_timer_mode,
+	E_CLOCK _arg_timer_clock,
+	T_VALUE _arg_timer_counter,
+	E_LOGIC _arg_timer_nf_isr = FALES
+)
 {
-	Set(_arg_timer_num, _arg_timer_mode, _arg_timer_clock, _arg_timer_counter, _arg_timer_nf_isr);
+	C_TIMER_base::Set_base(_arg_timer_mode, _arg_timer_nf_isr);
+	C_TIMER_base::Set_condition(_arg_timer_clock, _arg_timer_counter);
 }
+#endif
 
 inline void C_TIMER::Start()
 {

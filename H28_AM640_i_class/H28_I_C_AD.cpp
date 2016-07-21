@@ -14,7 +14,7 @@ AD変換を行うクラス。ポテンジョンメータの値を読むことが
 
 class C_AD
 {	
-	private:
+	protected:
 	union U_AD_MUX
 	{
 		struct S_AD_MUX
@@ -24,25 +24,19 @@ class C_AD
 			E_LOGIC _mux2 :1;
 			E_LOGIC _mux3 :1;
 			E_LOGIC _mux4 :1;
+#ifdef _AVR_IOM640_H_
 			E_LOGIC _mux5 :1;
+#endif
 		};
 		
 		S_AD_MUX _mux_bit;
-		usint _mux_admux :5;
+		usint _mux_admux :5;		
+#ifdef _AVR_IOM640_H_
 		E_AD_NUM _ad_num :6;
+#endif
 	};
 	
-	U_AD_MUX _mem_ad_num;
-	
-	protected:	
-	E_LOGIC Ret_mux0()	{	return _mem_ad_num._mux_bit._mux0;	}
-	E_LOGIC Ret_mux1()	{	return _mem_ad_num._mux_bit._mux1;	}
-	E_LOGIC Ret_mux2()	{	return _mem_ad_num._mux_bit._mux2;	}
-	E_LOGIC Ret_mux3()	{	return _mem_ad_num._mux_bit._mux3;	}
-	E_LOGIC Ret_mux4()	{	return _mem_ad_num._mux_bit._mux4;	}
-	E_LOGIC Ret_mux5()	{	return _mem_ad_num._mux_bit._mux5;	}
-	usint Ret_admux()	{	return _mem_ad_num._mux_admux;		}
-	E_AD_NUM Ret_num()	{	return _mem_ad_num._ad_num;			}
+	U_AD_MUX _mem_ad;
 	
 	void Set_num(E_AD_NUM );
 	
@@ -59,7 +53,7 @@ class C_AD
 //protected
 inline void C_AD::Set_num(E_AD_NUM _arg_ad_num)
 {
-	_mem_ad_num._ad_num = _arg_ad_num;
+	_mem_ad._ad_num = _arg_ad_num;
 }
 
 inline void C_AD::Set_first()
@@ -72,7 +66,9 @@ inline void C_AD::Set_first()
 		ADCSRA = ((1 << ADEN) | (1 << ADPS1) | (1 << ADPS0));
 		ADCSRB = 0;
 		DIDR0  = 0;
+#ifdef _AVR_IOM640_H_
 		DIDR2  = 0;
+#endif
 		
 		_sta_ad_first = TRUE;
 	}
@@ -84,32 +80,54 @@ inline void C_AD::Set(E_AD_NUM _arg_ad_num, E_LOGIC _arg_ad_io_turn = TRUE)
 	
 	Set_num(_arg_ad_num);
 	
+#if defined(_AVR_IOM640_H_)
 	switch (_arg_ad_io_turn)
 	{
 		case TRUE:
 		{
-			DDRF  &= ~(TURN_TF(Ret_mux5()) << Ret_admux());
-			PORTF |=  (TURN_TF(Ret_mux5()) << Ret_admux());
+			DDRF  &= ~(TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._mux_admux);
+			PORTF |=  (TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._mux_admux);
 			
-			DDRK  &= ~(Ret_mux5() << Ret_admux());
-			PORTK |=  (Ret_mux5() << Ret_admux());
+			DDRK  &= ~(_mem_ad._mux_bit._mux5 << _mem_ad._mux_admux);
+			PORTK |=  (_mem_ad._mux_bit._mux5 << _mem_ad._mux_admux);
 			
 			break;
 		}
 		case FALES:
 		{
-			DDRF  |=  (TURN_TF(Ret_mux5()) << Ret_admux());
-			PORTF &= ~(TURN_TF(Ret_mux5()) << Ret_admux());
+			DDRF  |=  (TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._mux_admux);
+			PORTF &= ~(TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._mux_admux);
 			
-			DDRK  |=  (Ret_mux5() << Ret_admux());
-			PORTK &= ~(Ret_mux5() << Ret_admux());
+			DDRK  |=  (_mem_ad._mux_bit._mux5 << _mem_ad._mux_admux);
+			PORTK &= ~(_mem_ad._mux_bit._mux5 << _mem_ad._mux_admux);
 			
 			break;
 		}
 	}
 
-	DIDR0 |= (TURN_TF(Ret_mux5()) << Ret_admux());
-	DIDR2 |= (Ret_mux5() << Ret_admux());
+	DIDR0 |= (TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._mux_admux);
+	DIDR2 |= (_mem_ad._mux_bit._mux5 << _mem_ad._mux_admux);
+#elif defined(_AVR_IOM164_H_)
+	switch (_arg_ad_io_turn)
+	{
+		case TRUE:
+		{
+			DDRA  &= ~(1 << _mem_ad._mux_admux);
+			PORTA |=  (1 << _mem_ad._mux_admux);
+			
+			break;
+		}
+		case FALES:
+		{
+			DDRA  |=  (1 << _mem_ad._mux_admux);
+			PORTA &= ~(1 << _mem_ad._mux_admux);
+			
+			break;
+		}
+	}
+
+	DIDR0 |= (1 << _mem_ad._mux_admux);
+#endif
 }
 
 //public
@@ -120,8 +138,10 @@ inline C_AD::C_AD(E_AD_NUM _arg_ad_num, E_LOGIC _arg_ad_io_turn = TRUE)
 
 inline usint C_AD::Do()
 {	
-	ADMUX += Ret_admux();
-	ADCSRB = (Ret_mux5() << MUX5);
+	ADMUX += _mem_ad._mux_admux;
+#ifdef _AVR_IOM640_H_
+	ADCSRB = (_mem_ad._mux_bit._mux5 << MUX5);
+#endif	
 	
 	ADCSRA |= (1 << ADSC);
 	

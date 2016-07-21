@@ -11,8 +11,12 @@ UART系の基底となるクラス。こいつは宣言しないでね
 class C_UART_base
 {
 	protected:
+	
+#if defined(_AVR_IOM640_H_)
 	E_UART_ADDR _mem_uart_base_addr :9;	//レジスタ用のアドレス
-
+#elif defined(_AVR_IOM164_H_)
+	E_UART_ADDR _mem_uart_base_addr :8;	//レジスタ用のアドレス
+#endif
 	#define UCSRA _SFR_MEM8(_mem_uart_base_addr + 0)
 	#define UCSRB _SFR_MEM8(_mem_uart_base_addr + 1)
 	#define UCSRC _SFR_MEM8(_mem_uart_base_addr + 2)
@@ -59,7 +63,12 @@ class C_UART_base
 
 //protected
 
-inline void C_UART_base::Set_base(E_UART_ADDR _arg_uart_base_addr)
+inline void 
+C_UART_base::
+Set_base(E_UART_ADDR _arg_uart_base_addr)
+/*
+
+*/
 {
 	_mem_uart_base_addr = _arg_uart_base_addr;
 	

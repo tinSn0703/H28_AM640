@@ -37,7 +37,13 @@ class C_UART_R : public virtual C_UART_base , public C_TIMER_inside
 };
 
 //protevted
-inline void C_UART_R::Set(E_UART_ADDR _arg_uart_r_addr, E_LOGIC _arg_uart_r_nf_isr)
+inline void 
+C_UART_R::
+Set
+(
+	E_UART_ADDR _arg_uart_r_addr, 
+	E_LOGIC _arg_uart_r_nf_isr
+)
 {
 	Set_base(_arg_uart_r_addr);
 	
@@ -49,7 +55,13 @@ inline void C_UART_R::Set(E_UART_ADDR _arg_uart_r_addr, E_LOGIC _arg_uart_r_nf_i
 }
 
 //public
-inline C_UART_R::C_UART_R(E_UART_ADDR _arg_uart_r_addr, E_LOGIC _arg_uart_r_nf_isr = FALES)
+inline 
+C_UART_R::
+C_UART_R
+(
+	E_UART_ADDR _arg_uart_r_addr, 
+	E_LOGIC _arg_uart_r_nf_isr = FALES
+)
 {	
 	Set(_arg_uart_r_addr,_arg_uart_r_nf_isr);
 }
@@ -63,7 +75,9 @@ inline void C_UART_R::Set_isr(E_LOGIC _arg_uart_r_nf_isr)
 	}
 }
 
-void C_UART_R::Check()
+void 
+C_UART_R::
+Check ()
 {	
 	UCSRB |= (1 << RXEN); //受信許可
 	
@@ -87,7 +101,9 @@ void C_UART_R::Check()
 	}
 }
 
-T_DATA C_UART_R::In()
+T_DATA 
+C_UART_R::
+In ()
 {
 	Check(); //受信チェック
 	
@@ -104,24 +120,44 @@ T_DATA C_UART_R::In()
 	return _ret_in_data;
 }
 
-void operator >> (C_UART_R &_arg_uart_r,T_DATA &_arg_uart_r_data_in)
+void 
+operator >> 
+(
+	C_UART_R &_arg_uart_r,
+	T_DATA &_arg_uart_r_data_in
+)
 {
 	_arg_uart_r_data_in = _arg_uart_r.In();
 }
 
-void operator >> (C_UART_R &_arg_uart_r,T_DATA_8 &_arg_uart_r_data_in)
+void 
+operator >> 
+(
+	C_UART_R &_arg_uart_r,
+	T_DATA_8 &_arg_uart_r_data_in
+)
 {
 	_arg_uart_r_data_in = (T_DATA_8 )_arg_uart_r.In();
 }
 
-bool operator == (C_UART_R &_arg_uart_r,E_UART_FLAG _arg_uart_r_flag)
+bool 
+operator == 
+(
+	C_UART_R &_arg_uart_r,
+	E_UART_FLAG _arg_uart_r_flag
+)
 {	
 	if (_arg_uart_r._mem_uart_r_flag == _arg_uart_r_flag)	return true;
 	
 	return false;
 }
 
-bool operator != (C_UART_R &_arg_uart_r,E_UART_FLAG _arg_uart_r_flag)
+bool 
+operator != 
+(
+	C_UART_R &_arg_uart_r,
+	E_UART_FLAG _arg_uart_r_flag
+)
 {
 	if (_arg_uart_r._mem_uart_r_flag != _arg_uart_r_flag)	return true;
 	

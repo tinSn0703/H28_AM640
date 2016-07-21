@@ -30,8 +30,7 @@ class C_IO_IN_pin : protected C_IO_IN
 
 inline void C_IO_IN_pin::Set(E_IO_PORT_ADDR _arg_io_in_pin_addr, E_IO_NUM _arg_io_in_pin_bit)
 {
-	C_IO_base::Set_base_addr(_arg_io_in_pin_addr);
-	C_IO_base::Set_base_mode(EI_IN);
+	C_IO_base::Set_base(_arg_io_in_pin_addr,EI_IN);
 	
 	_mem_io_in_pin_bit = _arg_io_in_pin_bit;
 	
