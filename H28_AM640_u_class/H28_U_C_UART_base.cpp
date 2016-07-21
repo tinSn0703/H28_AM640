@@ -17,6 +17,7 @@ class C_UART_base
 #elif defined(_AVR_IOM164_H_)
 	E_UART_ADDR _mem_uart_base_addr :8;	//レジスタ用のアドレス
 #endif
+
 	#define UCSRA _SFR_MEM8(_mem_uart_base_addr + 0)
 	#define UCSRB _SFR_MEM8(_mem_uart_base_addr + 1)
 	#define UCSRC _SFR_MEM8(_mem_uart_base_addr + 2)

@@ -29,10 +29,12 @@ class C_AD
 #endif
 		};
 		
-		S_AD_MUX _mux_bit;
-		usint _mux_admux :5;		
-#ifdef _AVR_IOM640_H_
+		S_AD_MUX _mux_bit;		
+#if defined(_AVR_IOM640_H_)
+		usint _mux_admux :5;
 		E_AD_NUM _ad_num :6;
+#elif defined(_AVR_IOM164_H_)
+		E_AD_NUM _mux_admux :5;
 #endif
 	};
 	
@@ -53,7 +55,11 @@ class C_AD
 //protected
 inline void C_AD::Set_num(E_AD_NUM _arg_ad_num)
 {
+#if defined(_AVR_IOM640_H_)
 	_mem_ad._ad_num = _arg_ad_num;
+#elif defined(_AVR_IOM164_H_)
+	_mem_ad._mux_admux = _arg_ad_num;
+#endif
 }
 
 inline void C_AD::Set_first()
