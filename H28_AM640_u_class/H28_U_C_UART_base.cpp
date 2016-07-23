@@ -11,11 +11,11 @@ UART系の基底となるクラス。こいつは宣言しないでね
 class C_UART_base
 {
 	protected:
-	
-#if defined(_AVR_IOM640_H_)
+
+#if _H28_AVR_H_ == 640
 	E_UART_ADDR _mem_uart_base_addr :9;	//レジスタ用のアドレス
-#elif defined(_AVR_IOM164_H_)
-	E_UART_ADDR _mem_uart_base_addr :8;	//レジスタ用のアドレス
+#elif _H28_AVR_H_ == 164
+	E_UART_ADDR _mem_uart_base_addr :8;
 #endif
 
 	#define UCSRA _SFR_MEM8(_mem_uart_base_addr + 0)
@@ -24,36 +24,6 @@ class C_UART_base
 	#define UBRRL _SFR_MEM8(_mem_uart_base_addr + 4)
 	#define UBRRH _SFR_MEM8(_mem_uart_base_addr + 5)
 	#define UDR	  _SFR_MEM8(_mem_uart_base_addr + 6)
-	
-	/*bit UCSRA*/
-	#define RXC  7
-	#define TXC	 6
-	#define UDRE 5
-	#define FE	 4
-	#define DOR  3
-	#define UPE  2
-	#define U2X  1
-	#define MPCM 0
-	
-	/*bit UCSRB*/
-	#define RXCIE 7
-	#define TXCIE 6
-	#define UDRIE 5
-	#define RXEN  4
-	#define TXEN  3
-	#define UCSZ2 2
-	#define RXB8  1
-	#define TXB8  0
-
-	/*bit UCSRC*/
-	#define UMSEL1 7
-	#define UMSEL0 6
-	#define UPM1   5
-	#define UPM0   4
-	#define USBS   3
-	#define UCSZ1  2
-	#define UCSZ0  1
-	#define UCPOL  0
 
 	void Set_base(E_UART_ADDR );
 
@@ -68,7 +38,12 @@ inline void
 C_UART_base::
 Set_base(E_UART_ADDR _arg_uart_base_addr)
 /*
+UARTの初期設定
+250[kbps]
+倍速
+奇数パリティ
 
+	_arg_uart_base_addr : 使うUARTのレジスタ
 */
 {
 	_mem_uart_base_addr = _arg_uart_base_addr;
@@ -88,7 +63,17 @@ Set_base(E_UART_ADDR _arg_uart_base_addr)
 }
 
 //public
-inline void C_UART_base::Set_bit9(E_LOGIC _arg_uart_base_nf_bit9)
+inline void 
+C_UART_base::
+Set_bit9 (E_LOGIC _arg_uart_base_nf_bit9)
+/*
+9bit通信のONOFF
+8bitと9bitどうしではうまく通信できないので注意
+
+	_arg_uart_base_nf_bit9 : ON/OFF
+	TRUE  -> ON
+	FALES -> OFF
+*/
 {
 	switch (_arg_uart_base_nf_bit9)
 	{

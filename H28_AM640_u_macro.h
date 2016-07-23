@@ -32,18 +32,23 @@ enum E_UART_FLAG
 	EU_ERROR = 2,	//éÛêMé∏îs
 };
 
+#if _H28_AVR_H_ == 640
 enum E_UART_ADDR
 //UART NUMBER SET COMAND
 {
 	EU_UART0 = 0xc0,
 	EU_UART1 = 0xc8,
-	
-#ifdef _AVR_IOM640_H_
 	EU_UART2 = 0xd0,
 	EU_UART3 = 0x130,
-#endif
-
 };
+#elif _H28_AVR_H_ == 164
+enum E_UART_ADDR
+//UART NUMBER SET COMAND
+{
+	EU_UART0 = 0xc0,
+	EU_UART1 = 0xc8,
+};
+#endif
 
 enum E_UART_MODE
 //UART MODE SET COMAND
@@ -51,6 +56,36 @@ enum E_UART_MODE
 	EU_TRA  = 0, //ëóêM
 	EU_REC  = 1, //éÛêM
 };
+
+/*bit UCSRA*/
+#define RXC  7
+#define TXC	 6
+#define UDRE 5
+#define FE	 4
+#define DOR  3
+#define UPE  2
+#define U2X  1
+#define MPCM 0
+
+/*bit UCSRB*/
+#define RXCIE 7
+#define TXCIE 6
+#define UDRIE 5
+#define RXEN  4
+#define TXEN  3
+#define UCSZ2 2
+#define RXB8  1
+#define TXB8  0
+
+/*bit UCSRC*/
+#define UMSEL1 7
+#define UMSEL0 6
+#define UPM1   5
+#define UPM0   4
+#define USBS   3
+#define UCSZ1  2
+#define UCSZ0  1
+#define UCPOL  0
 
 /************************************************************************/
 #include "H28_AM640_u_class/H28_AM640_u_class.h"

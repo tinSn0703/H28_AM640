@@ -18,8 +18,6 @@ class C_TIMER_base
 	E_TIMER_MODE	_mem_timer_base_mode :4;
 	T_VALUE			_mem_timer_base_counter :16;
 	E_CLOCK			_mem_timer_base_clock :3;
-
-#if defined(_AVR_IOM640_H_)
 	E_TIMER_ADDR	_mem_timer_base_addr :9;
 	T_NUM			_mem_timer_base_addr_plus :3;
 
@@ -30,65 +28,11 @@ class C_TIMER_base
 	#define TIFR		_SFR_MEM8(_mem_timer_base_addr_plus + 0x35)
 	#define COUNTERL	_SFR_MEM8(_mem_timer_base_addr + _mem_timer_base_mode + 0)
 	#define COUNTERH	_SFR_MEM8(_mem_timer_base_addr + _mem_timer_base_mode + 1)
-#elif defined(_AVR_IOM164_H_)
-	#define TCCRA		TCCR1A
-	#define TCCRB		TCCR1B
-	#define TCCRC		TCCR1C
-	#define TIMSK		TIMSK1
-	#define TIFR		TIFR1
-	#define COUNTERL	_SFR_MEM8(0x80 + _mem_timer_base_mode)
-	#define COUNTERH	_SFR_MEM8(0x81 + _mem_timer_base_mode)	
-#endif
-
-	//bit TCCRA
-	#define WGM0  0
-	#define WGM1  1
-	#define COMC0 2
-	#define COMC1 3
-	#define COMB0 4
-	#define COMB1 5
-	#define COMA0 6
-	#define COMA1 7
-	
-	//bit TCCRB
-	#define CS0  0
-	#define CS1  1
-	#define CS2  2
-	#define WGM2 3
-	#define WGM3 4
-	#define ICES 6
-	#define ICNC 7
-	
-	//bit TCRRC
-	#define FOCC 5
-	#define FOCB 6
-	#define FOCA 7
-	
-	//bit TIMSK
-	#define TOIE  0
-	#define OCIEA 1
-	#define OCIEB 2
-	#define OCIEC 3
-	#define ICIE  4
-	
-	//bit TIFR
-	#define TOV  0
-	#define OCFA 1
-	#define OCFB 2
-	#define OCFC 3
-	#define ICF  5
 	
 	#define TIME_SET_BIT ((1<<CS2)|(1<<CS1)|(1<<CS0))
 
-	void Set_base
-	(
-#ifdef _AVR_IOM640_H_	
-		E_TIMER_ADDR ,
-#endif
-		E_TIMER_MODE ,
-		E_LOGIC 
-	);
-	
+	void Set_base (E_TIMER_ADDR ,E_TIMER_MODE ,E_LOGIC );
+
 	void Set_mode(E_TIMER_MODE , E_LOGIC );
 	
 	void Set_condition(E_CLOCK ,T_VALUE );
@@ -99,15 +43,11 @@ inline void
 C_TIMER_base::
 Set_base
 (
-#ifdef _AVR_IOM640_H_
-	E_TIMER_ADDR _arg_timer_base_addr, 
-#endif
+	E_TIMER_ADDR _arg_timer_base_addr,
 	E_TIMER_MODE _arg_timer_base_mode , 
 	E_LOGIC _arg_timer_base_nf_isr = FALES
 )
 {
-
-#ifdef _AVR_IOM640_H_
 	_mem_timer_base_addr = _arg_timer_base_addr;
 	
 	switch (_arg_timer_base_addr)
@@ -117,7 +57,6 @@ Set_base
 		case ET_TIMER4:	_mem_timer_base_addr_plus = 4;	break;
 		case ET_TIMER5:	_mem_timer_base_addr_plus = 5;	break;
 	}
-#endif
 
 	TCCRA = 0x00;
 	
