@@ -54,7 +54,9 @@ C_TIMER
 	C_TIMER_base::Set_condition(_arg_timer_clock, _arg_timer_counter);
 }
 
-inline void C_TIMER::Start()
+inline void 
+C_TIMER::
+Start ()
 {
 	Stop();
 	
@@ -64,14 +66,22 @@ inline void C_TIMER::Start()
 	TCCRB |= _mem_timer_base_clock;
 }
 
-inline void C_TIMER::Start(E_CLOCK _arg_timer_clock, T_VALUE _arg_timer_counter)
+inline void 
+C_TIMER::
+Start
+(
+	E_CLOCK _arg_timer_clock, 
+	T_VALUE _arg_timer_counter
+)
 {
 	C_TIMER_base::Set_condition(_arg_timer_clock, _arg_timer_counter);
 	
 	Start();
 }
 
-E_LOGIC C_TIMER::Flag_timer(E_LOGIC _arg_timer_continue = TRUE)
+E_LOGIC 
+C_TIMER::
+Flag_timer (E_LOGIC _arg_timer_continue = TRUE)
 {
 	usint mode_bit = 0;
 	
