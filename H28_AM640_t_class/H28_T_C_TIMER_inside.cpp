@@ -5,8 +5,7 @@
  H28 05 23 ver 0.1.0 publicメンバないから宣言しても意味ないよ
 */
 
-#ifndef _H28_C_TIMER_INSIDE_CPP_
-#define _H28_C_TIMER_INSIDE_CPP_ 1
+#pragma once
 
 class C_TIMER_inside
 {
@@ -25,7 +24,14 @@ class C_TIMER_inside
 };
 
 //protected
-inline void C_TIMER_inside::Set(T_VALUE _arg_timer_inside_limit, T_COUNT _arg_timer_inside_count = 0, E_LOGIC _arg_timer_inside_flag = FALES)
+inline void 
+C_TIMER_inside::
+Set
+(
+	T_VALUE _arg_timer_inside_limit, 
+	T_COUNT _arg_timer_inside_count = 0, 
+	E_LOGIC _arg_timer_inside_flag = FALES
+)
 {
 	//overflow
 	TCCR0A = 0;
@@ -37,7 +43,9 @@ inline void C_TIMER_inside::Set(T_VALUE _arg_timer_inside_limit, T_COUNT _arg_ti
 	_mem_timer_inside_flag  = _arg_timer_inside_flag;
 }
 
-inline void C_TIMER_inside::Start()
+inline void 
+C_TIMER_inside::
+Start ()
 {
 	TCNT0 = 130; //100us
 	TCCR0B = (1<<CS01);
@@ -46,7 +54,9 @@ inline void C_TIMER_inside::Start()
 	_mem_timer_inside_count = 0;
 }
 
-inline E_LOGIC C_TIMER_inside::Check()
+inline E_LOGIC 
+C_TIMER_inside::
+Check ()
 {
 	if ((_mem_timer_inside_flag & CHECK_BIT_TF(TIFR0,TOV0)) == TRUE)
 	{
@@ -73,12 +83,12 @@ inline E_LOGIC C_TIMER_inside::Check()
 	return FALES;
 }
 
-inline void C_TIMER_inside::End()
+inline void 
+C_TIMER_inside::
+End ()
 {
 	TCCR0B = 0;
 	
 	_mem_timer_inside_count = 0;
 	_mem_timer_inside_flag = FALES;
 }
-
-#endif

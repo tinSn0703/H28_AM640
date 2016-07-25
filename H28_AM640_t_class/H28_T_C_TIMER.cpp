@@ -6,8 +6,7 @@
  H28 05 20 ver 1.0.0 C_TOMER_baseに設定用の関数と変数を移し、動作系の関数の中身を持ってきた
 */
 
-#ifndef _H28_T_C_TIMER_CPP_
-#define _H28_T_C_TIMER_CPP_ 1
+#pragma once
 
 #include "H28_T_C_TIMER_base.cpp"
 
@@ -108,5 +107,3 @@ inline void C_TIMER::Stop()
 {
 	TCCRB &= ~TIME_SET_BIT;
 }
-
-#endif

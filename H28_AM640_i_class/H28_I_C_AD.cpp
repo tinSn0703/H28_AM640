@@ -9,8 +9,7 @@ AD変換を行うクラス。ポテンジョンメータの値を読むことが
  H28 05 22 ver2.0.0   メンバ変数をカプセル化した。
 */
 
-#ifndef _H28_I_C_AD_CPP_
-#define _H28_I_C_AD_CPP_ 1
+#pragma once
 
 class C_AD
 {	
@@ -53,7 +52,9 @@ class C_AD
 };
 
 //protected
-inline void C_AD::Set_num(E_AD_NUM _arg_ad_num)
+inline void 
+C_AD::
+Set_num (E_AD_NUM _arg_ad_num)
 {
 #if defined(_AVR_IOM640_H_)
 	_mem_ad._ad_num = _arg_ad_num;
@@ -62,7 +63,9 @@ inline void C_AD::Set_num(E_AD_NUM _arg_ad_num)
 #endif
 }
 
-inline void C_AD::Set_first()
+inline void 
+C_AD::
+Set_first ()
 {
 	static E_LOGIC _sta_ad_first = FALES;
 	
@@ -80,7 +83,13 @@ inline void C_AD::Set_first()
 	}
 }
 
-inline void C_AD::Set(E_AD_NUM _arg_ad_num, E_LOGIC _arg_ad_io_turn = TRUE)
+inline void 
+C_AD::
+Set
+(
+	E_AD_NUM _arg_ad_num, 
+	E_LOGIC _arg_ad_io_turn = TRUE
+)
 {
 	Set_first();
 	
@@ -137,12 +146,20 @@ inline void C_AD::Set(E_AD_NUM _arg_ad_num, E_LOGIC _arg_ad_io_turn = TRUE)
 }
 
 //public
-inline C_AD::C_AD(E_AD_NUM _arg_ad_num, E_LOGIC _arg_ad_io_turn = TRUE)
+inline 
+C_AD::
+C_AD
+(
+	E_AD_NUM _arg_ad_num, 
+	E_LOGIC _arg_ad_io_turn = TRUE
+)
 {	
 	Set(_arg_ad_num, _arg_ad_io_turn);
 }
 
-inline usint C_AD::Do()
+inline usint 
+C_AD::
+Do ()
 {	
 	ADMUX += _mem_ad._mux_admux;
 #ifdef _AVR_IOM640_H_
@@ -161,5 +178,3 @@ inline usint C_AD::Do()
 	
 	return _ret_data_in;
 }
-
-#endif

@@ -11,8 +11,7 @@ IOピン用クラスの基礎。宣言しないでね。
  H28 06 12 ver1.2.0 デストラクタを追加。これで、子クラス終了時に、レジスタの設定が消されます。
 */
 
-#ifndef _H28_I_C_IO_BASE_CPP_
-#define _H28_I_C_IO_BASE_CPP_ 1
+#pragma once
 
 class C_IO_base
 {
@@ -87,5 +86,3 @@ Set_base
 		}
 	}
 }
-
-#endif

@@ -8,8 +8,7 @@ TIMER系の基底クラス
  H28 05 20 ver1.0.1 _mam_timer_base_nf_isrが不要だったので削除した。
 */
 
-#ifndef _H28_T_C_TIMER_BASE_CPP_
-#define _H28_T_C_TIMER_BASE_CPP_ 1
+#pragma once
 
 class C_TIMER_base
 {
@@ -110,5 +109,3 @@ Set_condition
 	_mem_timer_base_clock = _arg_timer_base_clock;
 	_mem_timer_base_counter = _arg_timer_base_counter;
 }
-
-#endif

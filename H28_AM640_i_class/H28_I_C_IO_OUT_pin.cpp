@@ -5,8 +5,7 @@
  H28 06 13 ver0.0.0
 */
 
-#ifndef _H28_I_C_IO_OUT_PIN_CPP_
-#define _H28_I_C_IO_OUT_PIN_CPP_ 1
+#pragma once
 
 class C_IO_OUT_pin : protected C_IO_OUT
 {
@@ -29,7 +28,13 @@ class C_IO_OUT_pin : protected C_IO_OUT
 };
 
 //protected
-inline void C_IO_OUT_pin::Set(E_IO_PORT_ADDR _arg_io_out_pin_addr, E_IO_NUM _arg_io_out_pin_bit)
+inline void 
+C_IO_OUT_pin::
+Set
+(
+	E_IO_PORT_ADDR _arg_io_out_pin_addr, 
+	E_IO_NUM _arg_io_out_pin_bit
+)
 {
 	C_IO_base::Set_base(_arg_io_out_pin_addr,EI_OUT);
 	
@@ -40,12 +45,19 @@ inline void C_IO_OUT_pin::Set(E_IO_PORT_ADDR _arg_io_out_pin_addr, E_IO_NUM _arg
 }
 
 //public
-C_IO_OUT_pin::C_IO_OUT_pin(E_IO_PORT_ADDR _arg_io_in_pin_addr, E_IO_NUM _arg_io_in_pin_bit)
+C_IO_OUT_pin::
+C_IO_OUT_pin
+(
+	E_IO_PORT_ADDR _arg_io_in_pin_addr, 
+	E_IO_NUM _arg_io_in_pin_bit
+)
 {
 	Set(_arg_io_in_pin_addr, _arg_io_in_pin_bit);
 }
 
-inline void C_IO_OUT_pin::Out(E_LOGIC _arg_io_out_pin_nf)
+inline void 
+C_IO_OUT_pin::
+Out (E_LOGIC _arg_io_out_pin_nf)
 {
 	switch (_arg_io_out_pin_nf)
 	{
@@ -54,14 +66,16 @@ inline void C_IO_OUT_pin::Out(E_LOGIC _arg_io_out_pin_nf)
 	}
 }
 
-inline void C_IO_OUT_pin::Out_on()
+inline void 
+C_IO_OUT_pin::
+Out_on ()
 {
 	C_IO_OUT::Out_num_on(_mem_io_out_pin_bit);
 }
 
-inline void C_IO_OUT_pin::Out_off()
+inline void 
+C_IO_OUT_pin::
+Out_off ()
 {
 	C_IO_OUT::Out_num_off(_mem_io_out_pin_bit);
 }
-
-#endif

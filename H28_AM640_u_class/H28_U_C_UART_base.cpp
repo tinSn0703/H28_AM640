@@ -5,8 +5,7 @@ UART系の基底となるクラス。こいつは宣言しないでね
  H28 05 23 ver0.1.0 コンストラクタ消しといた。
 */
 
-#ifndef _H28_U_C_UART_BASE_CPP_
-#define _H28_U_C_UART_BASE_CPP_ 1
+#pragma once
 
 class C_UART_base
 {
@@ -36,7 +35,7 @@ class C_UART_base
 
 inline void 
 C_UART_base::
-Set_base(E_UART_ADDR _arg_uart_base_addr)
+Set_base (E_UART_ADDR _arg_uart_base_addr)
 /*
 UARTの初期設定
 250[kbps]
@@ -81,5 +80,3 @@ Set_bit9 (E_LOGIC _arg_uart_base_nf_bit9)
 		case FALES:	UCSRB &= ~(1 << UCSZ2);	break; //Off
 	}
 }
-
-#endif

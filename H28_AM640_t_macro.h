@@ -4,13 +4,10 @@ TIMER系のクラスや関数を使うためのマクロやtypdef
  H28 05 18 ver0.0.0
 */
 
-#ifndef _H28_AM640_T_MACRO_H_
-#define _H28_AM640_T_MACRO_H_ 1
+#pragma once
 
 #ifndef _H28_AM640_H_
-{
-	#error "Include <H28_AM640.h>"
-}
+#	error "Include <H28_AM640.h>"
 #endif /*_H28_AM640_H_*/
 
 #include "H28_AM640_u_macro.h"
@@ -86,5 +83,3 @@ enum E_CLOCK
 #define ICF  5
 
 #include "H28_AM640_t_class/H28_AM640_t_class.h"
-
-#endif /*_H28_AM640_T_MACRO_H_*/

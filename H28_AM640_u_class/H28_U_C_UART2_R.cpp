@@ -7,8 +7,7 @@
  H28 05 24 ver1.1.0 Set_base_addrを多用するのはやめた。マクロ追加した。
 */
 
-#ifndef _H28_U_C_UART2_R_CPP_
-#define _H28_U_C_UART2_R_CPP_ 1
+#pragma once
 
 class C_UART_R2 : protected C_UART_base , public C_TIMER_inside
 {
@@ -58,7 +57,15 @@ class C_UART_R2 : protected C_UART_base , public C_TIMER_inside
 
 //protected
 
-inline void C_UART_R2::Set(E_UART_ADDR _arg_uart_r2_addr_0, E_UART_ADDR _arg_uart_r2_addr_1, E_LOGIC _arg_uart_r2_nf_isr_0 = FALES, E_LOGIC _arg_uart_r2_nf_isr_1 = FALES)
+inline void 
+C_UART_R2::
+Set
+(
+	E_UART_ADDR _arg_uart_r2_addr_0, 
+	E_UART_ADDR _arg_uart_r2_addr_1, 
+	E_LOGIC _arg_uart_r2_nf_isr_0 = FALES, 
+	E_LOGIC _arg_uart_r2_nf_isr_1 = FALES
+)
 {
 	_mem_arr_uart_r2_addr[0] = _arg_uart_r2_addr_0;
 	_mem_arr_uart_r2_addr[1] = _arg_uart_r2_addr_1;
@@ -75,12 +82,22 @@ inline void C_UART_R2::Set(E_UART_ADDR _arg_uart_r2_addr_0, E_UART_ADDR _arg_uar
 }
 
 //public
-inline C_UART_R2::C_UART_R2(E_UART_ADDR _arg_uart_r2_addr_0,E_UART_ADDR _arg_uart_r2_addr_1,E_LOGIC _arg_uart_r2_nf_isr_0 = FALES,E_LOGIC _arg_uart_r2_nf_isr_1 = FALES)
+inline 
+C_UART_R2::
+C_UART_R2
+(
+	E_UART_ADDR _arg_uart_r2_addr_0,
+	E_UART_ADDR _arg_uart_r2_addr_1,
+	E_LOGIC _arg_uart_r2_nf_isr_0 = FALES,
+	E_LOGIC _arg_uart_r2_nf_isr_1 = FALES
+)
 {
 	Set(_arg_uart_r2_addr_0,_arg_uart_r2_addr_1,_arg_uart_r2_nf_isr_0,_arg_uart_r2_nf_isr_1);
 }
 
-inline void C_UART_R2::Set_isr_0(E_LOGIC _arg_uart_r2_nf_isr_0)
+inline void 
+C_UART_R2::
+Set_isr_0 (E_LOGIC _arg_uart_r2_nf_isr_0)
 {
 	switch (_arg_uart_r2_nf_isr_0)
 	{
@@ -89,7 +106,9 @@ inline void C_UART_R2::Set_isr_0(E_LOGIC _arg_uart_r2_nf_isr_0)
 	}
 }
 
-inline void C_UART_R2::Set_isr_1(E_LOGIC _arg_uart_r2_nf_isr_1)
+inline void 
+C_UART_R2::
+Set_isr_1 (E_LOGIC _arg_uart_r2_nf_isr_1)
 {
 	switch (_arg_uart_r2_nf_isr_1)
 	{
@@ -98,7 +117,9 @@ inline void C_UART_R2::Set_isr_1(E_LOGIC _arg_uart_r2_nf_isr_1)
 	}
 }
 
-inline void C_UART_R2::Set_bit9_0(E_LOGIC _arg_uart2_r_nf_bit9_0)
+inline void 
+C_UART_R2::
+Set_bit9_0 (E_LOGIC _arg_uart2_r_nf_bit9_0)
 {	
 	switch (_arg_uart2_r_nf_bit9_0)
 	{
@@ -107,7 +128,9 @@ inline void C_UART_R2::Set_bit9_0(E_LOGIC _arg_uart2_r_nf_bit9_0)
 	}
 }
 
-inline void C_UART_R2::Set_bit9_1(E_LOGIC _arg_uart_r2_nf_bit9_1)
+inline void 
+C_UART_R2::
+Set_bit9_1 (E_LOGIC _arg_uart_r2_nf_bit9_1)
 {
 	switch (_arg_uart_r2_nf_bit9_1)
 	{
@@ -116,7 +139,9 @@ inline void C_UART_R2::Set_bit9_1(E_LOGIC _arg_uart_r2_nf_bit9_1)
 	}
 }
 
-inline void C_UART_R2::Check()
+inline void 
+C_UART_R2::
+Check ()
 //受信しなかった方を受信禁止にしたらうまくいった。
 {
 	UCSRB_0 |= (1 << RXEN);
@@ -161,7 +186,9 @@ inline void C_UART_R2::Check()
 	}
 }
 
-T_DATA C_UART_R2::In()
+T_DATA 
+C_UART_R2::
+In ()
 {
 	Check();
 	
@@ -183,28 +210,46 @@ T_DATA C_UART_R2::In()
 	return _ret_in_data;
 }
 
-void operator >> (C_UART_R2 &_arg_uart_r2,T_DATA &_arg_uart_r2_data_in)
+void 
+operator >> 
+(
+	C_UART_R2 &_arg_uart_r2,
+	T_DATA &_arg_uart_r2_data_in
+)
 {
 	_arg_uart_r2_data_in = _arg_uart_r2.In();
 }
 
-void operator >> (C_UART_R2 &_arg_uart_r2,T_DATA_8 &_arg_uart_r2_data_in)
+void 
+operator >> 
+(
+	C_UART_R2 &_arg_uart_r2,
+	T_DATA_8 &_arg_uart_r2_data_in
+)
 {
 	_arg_uart_r2_data_in = (T_DATA_8)_arg_uart_r2.In();
 }
 
-bool operator == (C_UART_R2 &_arg_uart_r2,E_UART_FLAG _arg_uart_r2_flag)
+bool 
+operator == 
+(
+	C_UART_R2 &_arg_uart_r2,
+	E_UART_FLAG _arg_uart_r2_flag
+)
 {
 	if (_arg_uart_r2._mem_uart_r2_flag == _arg_uart_r2_flag)	return true;
 	
 	return false;
 }
 
-bool operator != (C_UART_R2 &_arg_uart_r2,E_UART_FLAG _arg_uart_r2_flag)
+bool 
+operator != 
+(
+	C_UART_R2 &_arg_uart_r2,
+	E_UART_FLAG _arg_uart_r2_flag
+)
 {
 	if (_arg_uart_r2._mem_uart_r2_flag != _arg_uart_r2_flag)	return true;
 	
 	return false;
 }
-
-#endif

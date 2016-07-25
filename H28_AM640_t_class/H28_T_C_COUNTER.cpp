@@ -5,8 +5,7 @@
  H28 05 16 ver1.0.0 classにした。何となく使いづらいので要改造。特にflagやcountを行うあたり
 */
 
-#ifndef _H28_T_C_COUNTER_CPP_
-#define _H28_T_C_COUNTER_CPP_ 1
+#pragma once
 
 class C_COUNTER
 {
@@ -36,24 +35,37 @@ class C_COUNTER
 	void End();
 };
 
-inline C_COUNTER::C_COUNTER(T_VALUE _arg_counter_limit, T_COUNT _arg_counter_count = 0, E_LOGIC _arg_counter_nf = FALES)
+inline 
+C_COUNTER::
+C_COUNTER
+(
+	T_VALUE _arg_counter_limit, 
+	T_COUNT _arg_counter_count = 0, 
+	E_LOGIC _arg_counter_nf = FALES
+)
 {
 	_mem_counter_count = _arg_counter_count;
 	_mem_counter_nf  = _arg_counter_nf;
 	_mem_counter_limit = _arg_counter_limit;
 }
 
-inline void C_COUNTER::On()
+inline void 
+C_COUNTER::
+On ()
 {
 	_mem_counter_nf = TRUE;
 }
 
-inline void C_COUNTER::Off()
+inline void 
+C_COUNTER::
+Off ()
 {
 	_mem_counter_nf = FALES;
 }
 
-E_LOGIC C_COUNTER::Count()
+E_LOGIC 
+C_COUNTER::
+Count ()
 {
 	if (_mem_counter_nf == TRUE)
 	{
@@ -70,32 +82,40 @@ E_LOGIC C_COUNTER::Count()
 	return FALES;
 }
 
-inline void C_COUNTER::Count_up()
+inline void 
+C_COUNTER::
+Count_up ()
 {
 	_mem_counter_count ++;
 }
 	
-inline void C_COUNTER::Count_down()
+inline void 
+C_COUNTER::
+Count_down ()
 {
 	_mem_counter_count --;
 }
 
-inline E_LOGIC C_COUNTER::Check_limit()
+inline E_LOGIC 
+C_COUNTER::
+Check_limit ()
 {
 	if (_mem_counter_count == _mem_counter_limit)	return TRUE;
 	
 	return FALES;
 }
 
-inline void C_COUNTER::Count_reset()
+inline void 
+C_COUNTER::
+Count_reset ()
 {
 	_mem_counter_count = 0;
 }
 
-inline void C_COUNTER::End()
+inline void 
+C_COUNTER::
+End ()
 {
 	_mem_counter_count = 0;
 	_mem_counter_nf = FALES;
 }
-
-#endif

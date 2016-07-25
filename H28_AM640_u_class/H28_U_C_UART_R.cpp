@@ -6,8 +6,7 @@
  H28 05 23 ver 0.2.0 C_UART_baseの改造に合わせた
 */
 
-#ifndef _H28_U_C_UART_R_CPP_
-#define _H28_U_C_UART_R_CPP_ 1
+#pragma once
 
 #include "H28_U_C_UART_base.cpp"
 
@@ -163,5 +162,3 @@ operator !=
 	
 	return false;
 }
-
-#endif
