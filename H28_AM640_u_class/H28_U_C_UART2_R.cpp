@@ -30,17 +30,17 @@ class C_UART_R2 : protected C_UART_base , public C_TIMER_inside
 	#define UBRRH_1 _SFR_MEM8(_mem_arr_uart_r2_addr[1] + 5)
 	#define UDR_1	_SFR_MEM8(_mem_arr_uart_r2_addr[1] + 6)
 	
-	void Set(E_UART_ADDR ,E_UART_ADDR ,E_LOGIC ,E_LOGIC );
+	void Set(E_UART_ADDR ,E_UART_ADDR ,BOOL ,BOOL );
 	
 	public:
 	C_UART_R2()	{}
-	C_UART_R2(E_UART_ADDR ,E_UART_ADDR ,E_LOGIC ,E_LOGIC );
+	C_UART_R2(E_UART_ADDR ,E_UART_ADDR ,BOOL ,BOOL );
 	
-	void Set_isr_0(E_LOGIC );
-	void Set_isr_1(E_LOGIC );
+	void Set_isr_0(BOOL );
+	void Set_isr_1(BOOL );
 	
-	void Set_bit9_0(E_LOGIC );
-	void Set_bit9_1(E_LOGIC );
+	void Set_bit9_0(BOOL );
+	void Set_bit9_1(BOOL );
 	
 	void Check();
 	
@@ -63,8 +63,8 @@ Set
 (
 	E_UART_ADDR _arg_uart_r2_addr_0, 
 	E_UART_ADDR _arg_uart_r2_addr_1, 
-	E_LOGIC _arg_uart_r2_nf_isr_0 = FALES, 
-	E_LOGIC _arg_uart_r2_nf_isr_1 = FALES
+	BOOL _arg_uart_r2_nf_isr_0 = FALES, 
+	BOOL _arg_uart_r2_nf_isr_1 = FALES
 )
 {
 	_mem_arr_uart_r2_addr[0] = _arg_uart_r2_addr_0;
@@ -88,8 +88,8 @@ C_UART_R2
 (
 	E_UART_ADDR _arg_uart_r2_addr_0,
 	E_UART_ADDR _arg_uart_r2_addr_1,
-	E_LOGIC _arg_uart_r2_nf_isr_0 = FALES,
-	E_LOGIC _arg_uart_r2_nf_isr_1 = FALES
+	BOOL _arg_uart_r2_nf_isr_0 = FALES,
+	BOOL _arg_uart_r2_nf_isr_1 = FALES
 )
 {
 	Set(_arg_uart_r2_addr_0,_arg_uart_r2_addr_1,_arg_uart_r2_nf_isr_0,_arg_uart_r2_nf_isr_1);
@@ -97,7 +97,7 @@ C_UART_R2
 
 inline void 
 C_UART_R2::
-Set_isr_0 (E_LOGIC _arg_uart_r2_nf_isr_0)
+Set_isr_0 (BOOL _arg_uart_r2_nf_isr_0)
 {
 	switch (_arg_uart_r2_nf_isr_0)
 	{
@@ -108,7 +108,7 @@ Set_isr_0 (E_LOGIC _arg_uart_r2_nf_isr_0)
 
 inline void 
 C_UART_R2::
-Set_isr_1 (E_LOGIC _arg_uart_r2_nf_isr_1)
+Set_isr_1 (BOOL _arg_uart_r2_nf_isr_1)
 {
 	switch (_arg_uart_r2_nf_isr_1)
 	{
@@ -119,7 +119,7 @@ Set_isr_1 (E_LOGIC _arg_uart_r2_nf_isr_1)
 
 inline void 
 C_UART_R2::
-Set_bit9_0 (E_LOGIC _arg_uart2_r_nf_bit9_0)
+Set_bit9_0 (BOOL _arg_uart2_r_nf_bit9_0)
 {	
 	switch (_arg_uart2_r_nf_bit9_0)
 	{
@@ -130,7 +130,7 @@ Set_bit9_0 (E_LOGIC _arg_uart2_r_nf_bit9_0)
 
 inline void 
 C_UART_R2::
-Set_bit9_1 (E_LOGIC _arg_uart_r2_nf_bit9_1)
+Set_bit9_1 (BOOL _arg_uart_r2_nf_bit9_1)
 {
 	switch (_arg_uart_r2_nf_bit9_1)
 	{

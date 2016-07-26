@@ -29,7 +29,6 @@ enum E_UART_FLAG
 	EU_ERROR = 2,	//éÛêMé∏îs
 };
 
-#if _H28_AVR_H_ == 640
 enum E_UART_ADDR
 //UART NUMBER SET COMAND
 {
@@ -38,14 +37,6 @@ enum E_UART_ADDR
 	EU_UART2 = 0xd0,
 	EU_UART3 = 0x130,
 };
-#elif _H28_AVR_H_ == 164
-enum E_UART_ADDR
-//UART NUMBER SET COMAND
-{
-	EU_UART0 = 0xc0,
-	EU_UART1 = 0xc8,
-};
-#endif
 
 enum E_UART_MODE
 //UART MODE SET COMAND

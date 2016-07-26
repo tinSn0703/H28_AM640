@@ -15,13 +15,13 @@ class C_UART_R : public virtual C_UART_base , public C_TIMER_inside
 	protected:
 	E_UART_FLAG _mem_uart_r_flag :2; //最後の受信状態の記録
 	
-	void Set(E_UART_ADDR ,E_LOGIC );
+	void Set(E_UART_ADDR ,BOOL );
 	
 	public:
 	C_UART_R() {}
-	C_UART_R(E_UART_ADDR ,E_LOGIC );
+	C_UART_R(E_UART_ADDR ,BOOL );
 	
-	void Set_isr(E_LOGIC );
+	void Set_isr(BOOL );
 	void Check();
 	
 	T_DATA In();
@@ -41,7 +41,7 @@ C_UART_R::
 Set
 (
 	E_UART_ADDR _arg_uart_r_addr, 
-	E_LOGIC _arg_uart_r_nf_isr
+	BOOL _arg_uart_r_nf_isr
 )
 {
 	Set_base(_arg_uart_r_addr);
@@ -59,13 +59,13 @@ C_UART_R::
 C_UART_R
 (
 	E_UART_ADDR _arg_uart_r_addr, 
-	E_LOGIC _arg_uart_r_nf_isr = FALES
+	BOOL _arg_uart_r_nf_isr = FALES
 )
 {	
 	Set(_arg_uart_r_addr,_arg_uart_r_nf_isr);
 }
 
-inline void C_UART_R::Set_isr(E_LOGIC _arg_uart_r_nf_isr)
+inline void C_UART_R::Set_isr(BOOL _arg_uart_r_nf_isr)
 {
 	switch (_arg_uart_r_nf_isr)
 	{

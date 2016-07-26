@@ -17,8 +17,6 @@ class C_TIMER_base
 	E_TIMER_MODE	_mem_timer_base_mode :4;
 	T_VALUE			_mem_timer_base_counter :16;
 	E_CLOCK			_mem_timer_base_clock :3;
-	
-#if defined(_AVR_IOM640_H_)
 	E_TIMER_ADDR	_mem_timer_base_addr :9;
 	T_NUM			_mem_timer_base_addr_plus :3;
 
@@ -29,38 +27,22 @@ class C_TIMER_base
 #	define TIFR		_SFR_MEM8(_mem_timer_base_addr_plus + 0x35)
 #	define COUNTERL	_SFR_MEM8(_mem_timer_base_addr + _mem_timer_base_mode + 0)
 #	define COUNTERH	_SFR_MEM8(_mem_timer_base_addr + _mem_timer_base_mode + 1)
-#elif defined(_AVR_IOM164_H_)
-#	define TCCRA	TCCR1A
-#	define TCCRB	TCCR1B
-#	define TCCRC	TCCR1C
-#	define TIMSK	TIMSK1
-#	define TIFR		TIFR1
-#	define COUNTERL	_SFR_MEM8(0x080 + _mem_timer_base_mode)
-#	define COUNTERH	_SFR_MEM8(0x081 + _mem_timer_base_mode)
-#endif
 	
 #	define TIME_SET_BIT ((1<<CS2)|(1<<CS1)|(1<<CS0))
 
-#if defined(_AVR_IOM640_H_)
-	void Set_base (E_TIMER_ADDR ,E_TIMER_MODE ,E_LOGIC );
-#elif defined(_AVR_IOM164_H_)
-	void Set_base (E_TIMER_MODE ,E_LOGIC );
-#endif
-
-	void Set_mode(E_TIMER_MODE , E_LOGIC );
-	
+	void Set_base (E_TIMER_ADDR ,E_TIMER_MODE ,BOOL );
+	void Set_mode(E_TIMER_MODE , BOOL );
 	void Set_condition(E_CLOCK ,T_VALUE );
 };
 
 //protected
-#if defined(_AVR_IOM640_H_)
 inline void 
 C_TIMER_base::
 Set_base
 (
 	E_TIMER_ADDR _arg_timer_base_addr,
 	E_TIMER_MODE _arg_timer_base_mode , 
-	E_LOGIC _arg_timer_base_nf_isr = FALES
+	BOOL _arg_timer_base_nf_isr = FALES
 )
 {
 	_mem_timer_base_addr = _arg_timer_base_addr;
@@ -79,22 +61,6 @@ Set_base
 	
 	TCCRC = 0x00;
 }
-#elif defined(_AVR_IOM164_H_)
-inline void
-C_TIMER_base::
-Set_base
-(
-	E_TIMER_MODE _arg_timer_base_mode ,
-	E_LOGIC _arg_timer_base_nf_isr = FALES
-)
-{
-	TCCRA = 0x00;
-	
-	Set_mode(_arg_timer_base_mode, _arg_timer_base_nf_isr);
-	
-	TCCRC = 0x00;
-}
-#endif
 
 
 inline void 
@@ -102,7 +68,7 @@ C_TIMER_base::
 Set_mode
 (
 	E_TIMER_MODE _arg_timer_base_mode, 
-	E_LOGIC _arg_timer_base_nf_isr = FALES
+	BOOL _arg_timer_base_nf_isr = FALES
 )
 {
 	_mem_timer_base_mode = _arg_timer_base_mode;

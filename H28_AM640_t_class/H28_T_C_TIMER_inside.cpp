@@ -12,15 +12,15 @@ class C_TIMER_inside
 	private:
 	uchar _mem_timer_inside_count :8;
 	uchar _mem_timer_inside_limit :8;
-	E_LOGIC _mem_timer_inside_flag  :1;
+	BOOL _mem_timer_inside_flag  :1;
 	
 	protected:
-	void Set(T_VALUE ,T_COUNT ,E_LOGIC );
+	void Set(T_VALUE ,T_COUNT ,BOOL );
 	void Start();
-	E_LOGIC Check();
+	BOOL Check();
 	void End();
 	
-	E_LOGIC Ret_flag()	{	return _mem_timer_inside_flag;	}
+	BOOL Ret_flag()	{	return _mem_timer_inside_flag;	}
 };
 
 //protected
@@ -30,7 +30,7 @@ Set
 (
 	T_VALUE _arg_timer_inside_limit, 
 	T_COUNT _arg_timer_inside_count = 0, 
-	E_LOGIC _arg_timer_inside_flag = FALES
+	BOOL _arg_timer_inside_flag = FALES
 )
 {
 	//overflow
@@ -54,7 +54,7 @@ Start ()
 	_mem_timer_inside_count = 0;
 }
 
-inline E_LOGIC 
+inline BOOL 
 C_TIMER_inside::
 Check ()
 {

@@ -22,7 +22,7 @@ class C_IO_IN : public virtual C_IO_base
 	C_IO_IN(E_IO_PORT_ADDR ,T_PORT );
 
 	T_PORT In();
-	E_LOGIC In_num(E_IO_NUM );
+	BOOL In_num(E_IO_NUM );
 };
 
 //protected
@@ -55,7 +55,7 @@ In ()
 	return PIN;
 }
 
-inline E_LOGIC 
+inline BOOL 
 C_IO_IN::
 In_num (E_IO_NUM _arg_io_in_num_bit)
 {		

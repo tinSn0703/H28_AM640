@@ -18,21 +18,13 @@ class C_IO_base
 	protected:
 	
 	E_IO_MODE		_mem_io_base_mode :1;
-	
-#if defined(_AVR_IOM640_H_)
 	E_IO_PORT_ADDR	_mem_io_base_addr :9;
-	E_LOGIC			_mem_io_base_addr_point :1;
+	BOOL			_mem_io_base_addr_point :1;
 	
 #	define PIN	(_mem_io_base_addr_point == TRUE ? _SFR_MEM8(_mem_io_base_addr + 0) : _SFR_IO8(_mem_io_base_addr + 0))
 #	define DDR	(_mem_io_base_addr_point == TRUE ? _SFR_MEM8(_mem_io_base_addr + 1) : _SFR_IO8(_mem_io_base_addr + 1))
 #	define PORT	(_mem_io_base_addr_point == TRUE ? _SFR_MEM8(_mem_io_base_addr + 2) : _SFR_IO8(_mem_io_base_addr + 2))
-#elif defined(_AVR_IOM164_H_)
-	E_IO_PORT_ADDR	_mem_io_base_addr :8;
-	
-#	define PIN	_SFR_IO8(_mem_io_base_addr + 0)
-#	define DDR	_SFR_IO8(_mem_io_base_addr + 1)
-#	define PORT	_SFR_IO8(_mem_io_base_addr + 2)
-#endif
+
 	void Set_base(E_IO_PORT_ADDR ,E_IO_MODE );
 	void Set_base(E_IO_PORT_ADDR ,E_IO_MODE ,T_PORT );
 	

@@ -21,8 +21,6 @@ enum E_IO_PORT_ADDR
 	EI_PORTB = 0x003,
 	EI_PORTC = 0x006,
 	EI_PORTD = 0x009,
-
-#ifdef _AVR_IOM640_H_
 	EI_PORTE = 0x00c,
 	EI_PORTF = 0x00f,
 	EI_PORTG = 0x012,
@@ -30,8 +28,6 @@ enum E_IO_PORT_ADDR
 	EI_PORTJ = 0x103,
 	EI_PORTK = 0x106,
 	EI_PORTL = 0x109,
-#endif
-
 };
 
 enum E_IO_NUM
@@ -62,8 +58,6 @@ enum E_AD_NUM
 	EA_AD5 = 0b000101,
 	EA_AD6 = 0b000110,
 	EA_AD7 = 0b000111,
-	
-#ifdef _AVR_IOM640_H_
 	EA_AD8 = 0b100000,
 	EA_AD9 = 0b100001,
 	EA_ADA = 0b100010,
@@ -72,8 +66,6 @@ enum E_AD_NUM
 	EA_ADD = 0b100101,
 	EA_ADE = 0b100110,
 	EA_ADF = 0b100111,
-#endif
-
 };
 
 #define AD_ERROR 0xffff

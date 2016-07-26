@@ -18,23 +18,17 @@ class C_AD
 	{
 		struct S_AD_MUX
 		{
-			E_LOGIC _mux0 :1;
-			E_LOGIC _mux1 :1;
-			E_LOGIC _mux2 :1;
-			E_LOGIC _mux3 :1;
-			E_LOGIC _mux4 :1;
-#ifdef _AVR_IOM640_H_
-			E_LOGIC _mux5 :1;
-#endif
+			BOOL _mux0 :1;
+			BOOL _mux1 :1;
+			BOOL _mux2 :1;
+			BOOL _mux3 :1;
+			BOOL _mux4 :1;
+			BOOL _mux5 :1;
 		};
 		
-		S_AD_MUX _mux_bit;		
-#if defined(_AVR_IOM640_H_)
+		S_AD_MUX _mux_bit;
 		usint _mux_admux :5;
 		E_AD_NUM _ad_num :6;
-#elif defined(_AVR_IOM164_H_)
-		E_AD_NUM _mux_admux :5;
-#endif
 	};
 	
 	U_AD_MUX _mem_ad;
@@ -42,11 +36,11 @@ class C_AD
 	void Set_num(E_AD_NUM );
 	
 	void Set_first();
-	void Set(E_AD_NUM ,E_LOGIC );
+	void Set(E_AD_NUM ,BOOL );
 	
 	public:
 	C_AD()	{}
-	C_AD(E_AD_NUM ,E_LOGIC );
+	C_AD(E_AD_NUM ,BOOL );
 
 	usint Do();
 };
@@ -56,18 +50,14 @@ inline void
 C_AD::
 Set_num (E_AD_NUM _arg_ad_num)
 {
-#if defined(_AVR_IOM640_H_)
 	_mem_ad._ad_num = _arg_ad_num;
-#elif defined(_AVR_IOM164_H_)
-	_mem_ad._mux_admux = _arg_ad_num;
-#endif
 }
 
 inline void 
 C_AD::
 Set_first ()
 {
-	static E_LOGIC _sta_ad_first = FALES;
+	static BOOL _sta_ad_first = FALES;
 	
 	if (_sta_ad_first == FALES)
 	{
@@ -75,9 +65,7 @@ Set_first ()
 		ADCSRA = ((1 << ADEN) | (1 << ADPS1) | (1 << ADPS0));
 		ADCSRB = 0;
 		DIDR0  = 0;
-#ifdef _AVR_IOM640_H_
 		DIDR2  = 0;
-#endif
 		
 		_sta_ad_first = TRUE;
 	}
@@ -88,14 +76,13 @@ C_AD::
 Set
 (
 	E_AD_NUM _arg_ad_num, 
-	E_LOGIC _arg_ad_io_turn = TRUE
+	BOOL _arg_ad_io_turn = TRUE
 )
 {
 	Set_first();
 	
 	Set_num(_arg_ad_num);
 	
-#if defined(_AVR_IOM640_H_)
 	switch (_arg_ad_io_turn)
 	{
 		case TRUE:
@@ -122,28 +109,6 @@ Set
 
 	DIDR0 |= (TURN_TF(_mem_ad._mux_bit._mux5) << _mem_ad._mux_admux);
 	DIDR2 |= (_mem_ad._mux_bit._mux5 << _mem_ad._mux_admux);
-#elif defined(_AVR_IOM164_H_)
-	switch (_arg_ad_io_turn)
-	{
-		case TRUE:
-		{
-			DDRA  &= ~(1 << _mem_ad._mux_admux);
-			PORTA |=  (1 << _mem_ad._mux_admux);
-			
-			break;
-		}
-		case FALES:
-		{
-			DDRA  |=  (1 << _mem_ad._mux_admux);
-			PORTA &= ~(1 << _mem_ad._mux_admux);
-			
-			break;
-		}
-	}
-
-	DIDR0 |= (1 << _mem_ad._mux_admux);
-#endif
-
 }
 
 //public
@@ -152,7 +117,7 @@ C_AD::
 C_AD
 (
 	E_AD_NUM _arg_ad_num, 
-	E_LOGIC _arg_ad_io_turn = TRUE
+	BOOL _arg_ad_io_turn = TRUE
 )
 {	
 	Set(_arg_ad_num, _arg_ad_io_turn);
@@ -164,9 +129,7 @@ Do ()
 {	
 	ADMUX += _mem_ad._mux_admux;
 	
-#ifdef _AVR_IOM640_H_
 	ADCSRB = (_mem_ad._mux_bit._mux5 << MUX5);
-#endif	
 	
 	ADCSRA |= (1 << ADSC);
 	

@@ -19,7 +19,7 @@ class C_IO_OUT_pin : protected C_IO_OUT
 	C_IO_OUT_pin()	{}
 	C_IO_OUT_pin(E_IO_PORT_ADDR ,E_IO_NUM );
 	
-	void Out(E_LOGIC );
+	void Out(BOOL );
 	
 	void Out_on();
 	void Out_off();
@@ -57,7 +57,7 @@ C_IO_OUT_pin
 
 inline void 
 C_IO_OUT_pin::
-Out (E_LOGIC _arg_io_out_pin_nf)
+Out (BOOL _arg_io_out_pin_nf)
 {
 	switch (_arg_io_out_pin_nf)
 	{

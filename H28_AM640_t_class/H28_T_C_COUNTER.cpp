@@ -11,26 +11,26 @@ class C_COUNTER
 {
 	private:
 	T_COUNT _mem_counter_count;	//カウントの回数
-	E_LOGIC _mem_counter_nf :1;	//カウントのONOFF
+	BOOL _mem_counter_nf :1;	//カウントのONOFF
 	T_VALUE _mem_counter_limit;	//カウントの上限
 	
 	public:
 	C_COUNTER()	{}	
-	C_COUNTER(T_VALUE ,T_COUNT ,E_LOGIC );
+	C_COUNTER(T_VALUE ,T_COUNT ,BOOL );
 	
-	E_LOGIC Ret_flag()	{	return _mem_counter_nf;		}
+	BOOL Ret_flag()	{	return _mem_counter_nf;		}
 	T_COUNT Ret_count()	{	return _mem_counter_count;	}
 	T_VALUE Ret_limit()	{	return _mem_counter_limit;	}
 	
 	void On();
 	void Off();
 	
-	E_LOGIC Count();
+	BOOL Count();
 	void Count_up();
 	void Count_down();
 	void Count_reset();	
 	
-	E_LOGIC Check_limit();
+	BOOL Check_limit();
 	
 	void End();
 };
@@ -41,7 +41,7 @@ C_COUNTER
 (
 	T_VALUE _arg_counter_limit, 
 	T_COUNT _arg_counter_count = 0, 
-	E_LOGIC _arg_counter_nf = FALES
+	BOOL _arg_counter_nf = FALES
 )
 {
 	_mem_counter_count = _arg_counter_count;
@@ -63,7 +63,7 @@ Off ()
 	_mem_counter_nf = FALES;
 }
 
-E_LOGIC 
+BOOL 
 C_COUNTER::
 Count ()
 {
@@ -96,7 +96,7 @@ Count_down ()
 	_mem_counter_count --;
 }
 
-inline E_LOGIC 
+inline BOOL 
 C_COUNTER::
 Check_limit ()
 {
