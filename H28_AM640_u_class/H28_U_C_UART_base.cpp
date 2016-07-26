@@ -11,9 +11,9 @@ class C_UART_base
 {
 	protected:
 
-#if _H28_AVR_H_ == 640
+#if defined(_AVR_IOM640_H_)
 	E_UART_ADDR _mem_uart_base_addr :9;	//レジスタ用のアドレス
-#elif _H28_AVR_H_ == 164
+#elif defined(_AVR_IOM164_H_)
 	E_UART_ADDR _mem_uart_base_addr :8;
 #endif
 

@@ -17,6 +17,7 @@ typedef float T_TIME;
 
 /* MACRO TIMER ************************************************************/
 
+#ifdef _AVR_IOM640_H_
 enum E_TIMER_ADDR
 //タイマーの番号。9bit
 {
@@ -25,6 +26,7 @@ enum E_TIMER_ADDR
 	ET_TIMER4 = 0x0a0,/*TIMER4*/
 	ET_TIMER5 = 0x120,/*TIMER5*/
 };
+#endif
 
 enum E_TIMER_MODE
 //タイマーのモード。4bit

@@ -143,6 +143,7 @@ Set
 
 	DIDR0 |= (1 << _mem_ad._mux_admux);
 #endif
+
 }
 
 //public
@@ -162,6 +163,7 @@ C_AD::
 Do ()
 {	
 	ADMUX += _mem_ad._mux_admux;
+	
 #ifdef _AVR_IOM640_H_
 	ADCSRB = (_mem_ad._mux_bit._mux5 << MUX5);
 #endif	
